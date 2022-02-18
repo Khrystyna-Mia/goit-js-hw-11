@@ -3,7 +3,6 @@ import axios from "axios";
 const API_URL = `https://pixabay.com/api/`;
 const API_KEY = '25738205-42a7db76025be689580da6194';
 
-
 export default class ImagesApiService {
     constructor() {
         this.query = '';
