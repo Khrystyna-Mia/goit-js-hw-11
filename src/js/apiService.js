@@ -1,21 +1,17 @@
 import axios from "axios";
-import apiSettings from './settings';
 
-const { imgKey, imgApiUrl } = apiSettings;
+const API_URL = `https://pixabay.com/api/`;
+const API_KEY = '25738205-42a7db76025be689580da6194';
 
-export class ImagesApiService {
+
+export default class ImagesApiService {
     constructor() {
-        this.searchQuery = '';
-        this.pagination = new Pagination({
-            onchange(currentPage) {
-                this.ImagesApiService(currentPage)
-            }
-        });
+        this.query = '';
+        this.page = 1;
     }
 
     async fetchImg(page) {
-        const response = await axios.get(`${imgApiUrl}?key=${imgKey}&q=${this.query}&image_type=photo&orientation=horizontal&safesearch=true&page=${page}&per_page=40`);
-        this.incrementPage();
+        const response = await axios.get(`${API_URL}?key=${API_KEY}&q=${this.query}&image_type=photo&orientation=horizontal&safesearch=true&page=${this.page}&per_page=40`);
         return await response.data;
     } catch(error) {
         return error;
@@ -30,10 +26,10 @@ export class ImagesApiService {
     }
 
     incrementPage() {
-        this.pagination.incrementPage();
+        this.page += 1;
     }
 
     resetPage() {
-        this.pagination.resetPage();
+        this.page = 1;
     }
 }
