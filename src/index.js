@@ -1,2 +1,2 @@
 import './css/styles.css';
-import './js/imgApi';
+import './js/api/imgApi';
