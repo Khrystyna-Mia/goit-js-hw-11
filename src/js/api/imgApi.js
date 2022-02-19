@@ -10,7 +10,7 @@ const refs = getRefs();
 
 const imagesApiService = new ImagesApiService();
 
-const lightbox = new SimpleLightbox('.js-gallery a', {
+const lightbox = new SimpleLightbox('.gallery a', {
     captions: true,
     captionSelector: 'img',
     captionsData: 'alt',
@@ -18,13 +18,15 @@ const lightbox = new SimpleLightbox('.js-gallery a', {
     captionDelay: 250,
 });
 
-    
-refs.searchForm.addEventListener('submit', onSearch);
+refs.btn.addEventListener('click', onSearch);
+// refs.searchForm.addEventListener('submit', onSearch);
 
 async function onSearch(evt) {
     evt.preventDefault();
 
-    imagesApiService.searchQuery = evt.currentTarget.elements.searchQuery.value;
+    imagesApiService.searchQuery = refs.searchForm.searchQuery.value;
+    // imagesApiService.searchQuery = evt.currentTarget.elements.searchQuery.value;
+
 
     const getImages = await imagesApiService.fetchImg();
     if (getImages.hits.length === 0) {
@@ -65,7 +67,7 @@ const endOfSearch = entries => {
             galleryCardsMarkup(galleryMarkup);
             
             lightbox.refresh();
-                infScroll();
+            infScroll();
             }
         } catch { 
             Notify.warning(`😔 We're sorry, but you've reached the end of search results.`);
@@ -73,6 +75,10 @@ const endOfSearch = entries => {
     });
 }
 
+// const observer = new IntersectionObserver(endOfSearch, {
+//     rootMargin: '200px',
+// });
+// observer.observe(refs.loading);
 
 function infScroll() {
     const { height: cardHeight } = document.querySelector('.card')
@@ -83,5 +89,4 @@ function infScroll() {
         behavior: 'smooth',
     });
 }
-
 
