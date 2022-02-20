@@ -86,4 +86,4 @@ var t=arguments[3];function e(t){return(e="function"==typeof Symbol&&"symbol"==t
 },{}],"Focm":[function(require,module,exports) {
 "use strict";require("./css/styles.css"),require("./js/api/imgApi"),require("./js/api/page-header");
 },{"./css/styles.css":"krre","./js/api/imgApi":"Czm7","./js/api/page-header":"yqqL"}]},{},["Focm"], null)
-//# sourceMappingURL=/goit-js-hw-11/src.0f4809ae.js.map
+//# sourceMappingURL=/goit-js-hw-11/src.4f662bac.js.map
