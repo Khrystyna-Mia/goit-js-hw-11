@@ -4,7 +4,7 @@ import getRefs from './get-refs';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
-import InfiniteScroll from 'infinite-scroll';
+// import InfiniteScroll from 'infinite-scroll';
 
 
 const refs = getRefs();
@@ -27,9 +27,9 @@ async function onSearch(evt) {
 
     imagesApiService.searchQuery = refs.searchForm.searchQuery.value;
     // imagesApiService.searchQuery = evt.currentTarget.elements.searchQuery.value;
-
-
+    
     const getImages = await imagesApiService.fetchImg();
+
     if (getImages.hits.length === 0) {
         Notify.failure(`😔 Sorry, there are no images matching your search query. Please try again.`);
     } else {
@@ -44,7 +44,7 @@ async function onSearch(evt) {
         lightbox.refresh();
     }
 
-    console.log(getImages);
+    // console.log(getImages);
 
 }
 
@@ -56,10 +56,10 @@ function galleryCardsMarkup(items) {
     refs.container.insertAdjacentHTML('beforeend', items);
 }
 
-const onEntry = entries => {
+const onEntry = (entries) => {
     entries.forEach(async (entry) => {
         try {
-            if (entry.isIntersecting && imagesApiService !== '') {
+            if (entry.isIntersecting && imagesApiService.searchQuery !== '') {
                 console.log('😉 Loading more pictures!');
 
                 imagesApiService.incrementPage();
@@ -79,7 +79,7 @@ const onEntry = entries => {
 }
 
 const options = {
-    rootMargin: '100px',
+    rootMargin: '150px',
     // threshold: 0.5,
 };
 
