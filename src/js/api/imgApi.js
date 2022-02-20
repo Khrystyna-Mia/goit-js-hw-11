@@ -4,6 +4,7 @@ import getRefs from './get-refs';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
+import InfiniteScroll from 'infinite-scroll';
 
 
 const refs = getRefs();
@@ -43,7 +44,7 @@ async function onSearch(evt) {
         lightbox.refresh();
     }
 
-    // console.log(getImages);
+    console.log(getImages);
 
 }
 
@@ -55,30 +56,35 @@ function galleryCardsMarkup(items) {
     refs.container.insertAdjacentHTML('beforeend', items);
 }
 
-const endOfSearch = entries => {
+const onEntry = entries => {
     entries.forEach(async (entry) => {
         try {
-            if (entry.isStopped && imagesApiService !== '') {
-            imagesApiService.incrementPage();
+            if (entry.isIntersecting && imagesApiService !== '') {
+                console.log('😉 Loading more pictures!');
 
-            const getImages = await imagesApiService.fetchImg();
+                imagesApiService.incrementPage();
+
+                const getImages = await imagesApiService.fetchImg();
             
-            const galleryMarkup = imgCardsTemplates(getImages.hits);
-            galleryCardsMarkup(galleryMarkup);
+                const galleryMarkup = imgCardsTemplates(getImages.hits);
+                galleryCardsMarkup(galleryMarkup);
             
-            lightbox.refresh();
-            infScroll();
+                lightbox.refresh();
+                infScroll()
             }
-        } catch { 
+        } catch {
             Notify.warning(`😔 We're sorry, but you've reached the end of search results.`);
         }
     });
 }
 
-// const observer = new IntersectionObserver(endOfSearch, {
-//     rootMargin: '200px',
-// });
-// observer.observe(refs.loading);
+const options = {
+    rootMargin: '100px',
+    // threshold: 0.5,
+};
+
+const observer = new IntersectionObserver(onEntry, options);
+observer.observe(refs.loading);
 
 function infScroll() {
     const { height: cardHeight } = document.querySelector('.card')
