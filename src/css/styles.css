@@ -136,3 +136,7 @@ button::before {
 .fa-solid {
   color: rgba(250, 128, 114, 1);
 }
+
+b {
+  color: rgba(105, 105, 105, 1);
+}
